@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 // import CardActions from '@material-ui/core/CardActions';
@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 import styles from './Cards.module.css';
 import CountUp from 'react-countup';
+import { fetchData1 } from '../Api';
 
 
 const useStyles = makeStyles({
@@ -33,64 +34,82 @@ const useStyles = makeStyles({
 
 });
 
-export default function SimpleCard(props) {
+export default function SimpleCard() {
     const classes = useStyles();
     // const classes1 = styles();
-    console.log('Incoming data from parent component :>> ');
+    const [globalData1, setGlobalData1] = useState({});
 
 
-    // const load = "Loading...";
-    // if (props.props.confirmed.value) {
-    //     return (
-    //         <>
+    useEffect(() => {
+
+        const fetchApi1 = async () => {
+            const globalData2 = await fetchData1();
+            setGlobalData1(globalData2);
+        }
+        console.log('globalData1 :>> ', globalData1)
+        fetchApi1();
+    });
 
 
-    //             <Card className={classes.root}>
-    //                 <CardContent className={styles.infected}>
-    //                     <Typography variant="h5" component="h2">
-    //                         INFECTED
-    //                     </Typography>
-    //                     <br />
-    //                     <Typography className={classes.pos} variant="h4" color="blue">
-    //                         {load}
 
-    //                     </Typography>
 
-    //                 </CardContent>
 
-    //             </Card>
-    //             <Card className={classes.root} >
-    //                 <CardContent className={styles.recovered}>
-    //                     <Typography variant="h5" component="h2">
-    //                         RECOVERED
-    //                     </Typography>
-    //                     <br />
-    //                     <Typography className={classes.pos} variant="h4" color="textSuccess">
-    //                         {load}
-    //                     </Typography>
 
-    //                 </CardContent>
+    const load = "Loading...";
+    if (!globalData1) {
+        return (
+            <>
 
-    //             </Card>
-    //             <Card className={classes.root}>
-    //                 <CardContent className={styles.deaths}>
-    //                     <Typography variant="h5" component="h2">
-    //                         FATALITIES
-    //                     </Typography>
-    //                     <br />
-    //                     <Typography className={classes.pos} variant="h4" color="textDanger">
-    //                         {load}
-    //                     </Typography>
 
-    //                 </CardContent>
+                <Card className={classes.root}>
+                    <CardContent className={styles.infected}>
+                        <Typography variant="h5" component="h2">
+                            INFECTED
+                        </Typography>
+                        <br />
+                        <Typography className={classes.pos} variant="h4" color="blue">
+                            {load}
 
-    //             </Card>
-    //         </>
+                        </Typography>
 
-    //     );
-    // }
+                    </CardContent>
+
+                </Card>
+                <Card className={classes.root} >
+                    <CardContent className={styles.recovered}>
+                        <Typography variant="h5" component="h2">
+                            RECOVERED
+                        </Typography>
+                        <br />
+                        <Typography className={classes.pos} variant="h4" color="textSuccess">
+                            {load}
+                        </Typography>
+
+                    </CardContent>
+
+                </Card>
+                <Card className={classes.root}>
+                    <CardContent className={styles.deaths}>
+                        <Typography variant="h5" component="h2">
+                            FATALITIES
+                        </Typography>
+                        <br />
+                        <Typography className={classes.pos} variant="h4" color="textDanger">
+                            {load}
+                        </Typography>
+
+                    </CardContent>
+
+                </Card>
+            </>
+
+        );
+    }
+
+
 
     return (
+
         <>
 
 
@@ -98,10 +117,10 @@ export default function SimpleCard(props) {
                 <CardContent className={styles.infected}>
                     <Typography variant="h5" component="h2">
                         INFECTED
-                        </Typography>
+            </Typography>
                     <br />
                     <Typography className={classes.pos} variant="h4" color="blue">
-                        <CountUp start={0} end={props.data.confirmed.value} duration={2.75} separator="," />
+                        <CountUp start={0} end={2222} duration={2.75} separator="," />
 
                     </Typography>
 
@@ -112,10 +131,10 @@ export default function SimpleCard(props) {
                 <CardContent className={styles.recovered}>
                     <Typography variant="h5" component="h2">
                         RECOVERED
-                        </Typography>
+            </Typography>
                     <br />
                     <Typography className={classes.pos} variant="h4" color="textSuccess">
-                        <CountUp start={0} end={props.data.recovered.value} duration={2.75} separator="," />
+                        <CountUp start={0} end={globalData1} duration={2.75} separator="," />
                     </Typography>
 
                 </CardContent>
@@ -125,10 +144,10 @@ export default function SimpleCard(props) {
                 <CardContent className={styles.deaths}>
                     <Typography variant="h5" component="h2">
                         FATALITIES
-                        </Typography>
+            </Typography>
                     <br />
                     <Typography className={classes.pos} variant="h4" color="textDanger">
-                        <CountUp start={0} end={props.data.deaths.value} duration={2.75} separator="," />
+                        <CountUp start={0} end={globalData1.deaths} duration={2.75} separator="," />
                     </Typography>
 
                 </CardContent>
@@ -137,8 +156,5 @@ export default function SimpleCard(props) {
         </>
 
     );
-
-
-
-
 }
+
